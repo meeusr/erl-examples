@@ -16,7 +16,7 @@ server(Port) ->
 
 loop(Socket) ->
     receive
-        {udp, Socket, Host, Port, Data} = Msg ->
+        {udp, Socket, Host, Port, Data} ->
             %% io:format("server received:~p~n",[Msg]),
             gen_udp:send(Socket, Host, Port, Data),
             loop(Socket);
@@ -42,7 +42,7 @@ client_async(N) ->
 
 sendmessage_sync(_Socket,0) -> ok;
 sendmessage_sync(Socket,N) ->
-    ok = gen_udp:send(Socket, "localhost", 9000, "test"),
+    ok = gen_udp:send(Socket, "127.0.0.1", 9000, "test"),
     receive
         {udp, Socket, _, _, Data} = Msg ->
             %% io:format("client received:~p data:~p ~n",[Msg,Data]),
@@ -53,7 +53,7 @@ sendmessage_sync(Socket,N) ->
 
 sendmessage_async(_Socket,0) -> ok;
 sendmessage_async(Socket,N) ->
-    ok = gen_udp:send(Socket, "localhost", 9000, "test"),
+    ok = gen_udp:send(Socket, "127.0.0.1", 9000, "test"),
     sendmessage_async(Socket,N-1).
 
 recvmessage_async(_Socket,0) -> ok;

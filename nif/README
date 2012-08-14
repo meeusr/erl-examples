@@ -1,0 +1,3 @@
+export ERL_ROOT=/usr/local/lib/erlang
+gcc -o socket_nif.so -fpic -shared socket_nif.c -I $ERL_ROOT/usr/include/
+

@@ -23,14 +23,14 @@ int main(void)
   destination.sin_port = htons(6001);
   inet_pton(AF_INET,"127.0.0.1", &destination.sin_addr);
   sock = socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
-  while (1)
+  //while (1)
   {
     printf("Sending burst ...\n");
-    for (i=0;i<1000;i++) {
+    for (i=0;i<5000;i++) {
       addr_len = sizeof(destination);
       size = sendto(sock,data,5,0,(struct sockaddr*)&destination,addr_len);
     }
-    for (i=0;i<1000;i++) {
+    for (i=0;i<5000;i++) {
       recvfrom(sock,data,2000,0,(struct sockaddr*)&source,&addr_len);
     }
   }

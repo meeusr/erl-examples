@@ -2,7 +2,7 @@
 -export([start_server/0, stop_server/0, client_sync/1,client_async/1]).
 
 start_server() ->
-    register(udp_server,spawn(fun() -> server(9000) end)).
+    register(udp_server,spawn(fun() -> server(6001) end)).
 
 stop_server() ->
     udp_server ! stop.
@@ -10,16 +10,19 @@ stop_server() ->
 server(Port) ->
     {ok, Socket} = gen_udp:open(Port, [binary]),
     io:format("server opened socket:~p~n",[Socket]),
-    loop(Socket),
+    loop(Socket,0),
     io:format("server close socket:~p~n",[Socket]),
     gen_udp:close(Socket).
 
-loop(Socket) ->
+loop(Socket,MsgCount) ->
     receive
         {udp, Socket, Host, Port, Data} ->
             %% io:format("server received:~p~n",[Msg]),
             gen_udp:send(Socket, Host, Port, Data),
-            loop(Socket);
+            loop(Socket,MsgCount+1);
+	{stats} ->
+	    io:format("~p~n",[MsgCount]),
+	    loop(Socket,MsgCount);
         stop -> ok
     end.
 

@@ -12,7 +12,7 @@ valid_entry_count([],_Now,_Age,_F,Acc) ->
 
 valid_entry_count([Head|Tail],Now,Age,F,Acc) ->
   Diff = F(Now,Head),
-  io:format("valid_entry_count ~p\n",[Timediff]),
+  io:format("valid_entry_count ~p\n",[Diff]),
   if 
     Diff < Age -> 
         valid_entry_count(Tail,Now,Age,F,Acc+1);
